@@ -71,6 +71,7 @@ def pesquisar():
 ######### COMPONENTES #########
 titulo = ttk.Label(tela, text='PROPRIETÁRIO CAR', style='TLabel')
 texto_pesquisa = ttk.Label(tela, text='Digite ou Pesquise a Tabela Excel', style='texto.TLabel')
+texto_arquivo = ttk.Entry(tela, style='TEntry', font=('Calibri', 10, 'bold'))
 
 foto1 = PhotoImage(file='imagens/1f60e.png')
 foto1 = foto1.subsample(4, 4)
@@ -81,8 +82,6 @@ figura2 = Label(image=foto2, background='white')
 
 botao_pesquisar_arquivo = ttk.Button(tela, text='Pesquisar', style='pesquisa.TButton', command=pesquisar_arquivo)
 botao_de_inicializacao = ttk.Button(tela, text='teste', style='TButton', command=pesquisar)
-
-texto_arquivo = ttk.Entry(tela, style='TEntry', font=('Calibri', 10, 'bold'))
 
 ######### POSICAO DOS COMPONENTES #########
 figura1.grid(row=0, column=0)
