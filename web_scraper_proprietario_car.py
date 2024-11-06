@@ -49,14 +49,16 @@ def pesquisar():
         with sync_playwright() as p:
             navegador = p.firefox.launch()
             pagina = navegador.new_page()
+            try:
+                pagina.goto(url)
+                texto = pagina.locator(seletor).text_content()
+                
+                navegador.close()
 
-            pagina.goto(url)
+                return texto
 
-            texto = pagina.locator(seletor).text_content()
-
-            navegador.close()
-
-            return texto
+            except Exception:
+                return ''
 
     try:
         df = pd.read_excel(texto_arquivo.get())
@@ -70,13 +72,14 @@ def pesquisar():
             url = f'https://www.registrorural.com.br/car/item/{i}'
             seletor = '//html/body/div[2]/div/div[2]/div[2]/div/div/h3/a'
             texto_retirado_site = pegar_proprietario(url, seletor).strip()
-
             proprietario = ''
-            for i in range(0, len(texto_retirado_site)):
-                if texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != '-':
-                    proprietario += texto_retirado_site[i]
-                else:
-                    break
+
+            if texto_retirado_site != '':
+                for i in range(0, len(texto_retirado_site)):
+                    if texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != '-':
+                        proprietario += texto_retirado_site[i]
+                    else:
+                        break
                 
             proprietarios[cont] = proprietario
             cont += 1
