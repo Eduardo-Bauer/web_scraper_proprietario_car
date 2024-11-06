@@ -76,14 +76,14 @@ def pesquisar():
 
             if texto_retirado_site != '':
                 for i in range(0, len(texto_retirado_site)):
-                    if texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != '-':
+                    if (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != '-') and (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != 'e' or texto_retirado_site[i + 2] != 'm' or texto_retirado_site[i + 3] != ' '):
                         proprietario += texto_retirado_site[i]
                     else:
                         break
-                
+
             proprietarios[cont] = proprietario
             cont += 1
-
+            
         df['Proprietarios'] = proprietarios
 
         df.to_excel(texto_arquivo.get(), index = False)
