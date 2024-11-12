@@ -66,25 +66,46 @@ def pesquisar():
         cars = df.iloc[:, 0]
 
         proprietarios = [''] * len(cars)
+        matriculas = [''] * len(cars)
+        textos = [''] * len(cars)
         cont = 0
-        
+
         for i in cars:
             url = f'https://www.registrorural.com.br/car/item/{i}'
             seletor = '//html/body/div[2]/div/div[2]/div[2]/div/div/h3/a'
             texto_retirado_site = pegar_proprietario(url, seletor).strip()
             proprietario = ''
+            matricula = ''
+            numeros = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
 
             if texto_retirado_site != '':
                 for i in range(0, len(texto_retirado_site)):
-                    if (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != '-') and (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != 'e' or texto_retirado_site[i + 2] != 'm' or texto_retirado_site[i + 3] != ' '):
+                    if (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != 'e' or texto_retirado_site[i + 2] != 'm') and (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != 'M' or texto_retirado_site[i + 2] != 'a' or texto_retirado_site[i + 3] != 't' or texto_retirado_site[i + 4] != 'r') and (texto_retirado_site[i] != ' ' or texto_retirado_site[i + 1] != '-') and (texto_retirado_site[i] != 'R' or texto_retirado_site[i + 1] != 's'):
                         proprietario += texto_retirado_site[i]
+
                     else:
+                        if(len(proprietario) > 0):
+                            for i in range(len(proprietario), len(texto_retirado_site)):
+                                if texto_retirado_site[i] in numeros or (texto_retirado_site[i] == ' ' and texto_retirado_site[i + 1] == 'E') or (texto_retirado_site[i] == 'E' and texto_retirado_site[i + 1] == ' ') or (texto_retirado_site[i] == ' ' and texto_retirado_site[i + 1] in numeros):
+                                    matricula += texto_retirado_site[i]
+                                elif len(matricula) > 0:
+                                    break
                         break
 
+                print(f'texto = {texto_retirado_site}')
+                print(f'proprietário = {proprietario}')
+                print(f'matricula = {matricula}')
+                print(f'o programa está no {cont + 1} de {len(cars)}')
+                print('---------------------------------------------')
+
             proprietarios[cont] = proprietario
+            matriculas[cont] = matricula
+            textos[cont] = texto_retirado_site
             cont += 1
             
         df['Proprietarios'] = proprietarios
+        df['Matriculas'] = matriculas
+        df['Textos'] = textos
 
         df.to_excel(texto_arquivo.get(), index = False)
 
