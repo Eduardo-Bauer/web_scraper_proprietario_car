@@ -76,7 +76,7 @@ def pesquisar():
             texto_retirado_site = pegar_proprietario(url, seletor).strip()
             proprietario = ''
             matricula = ''
-            numeros = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+            numeros = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 
             if texto_retirado_site != '':
                 for i in range(0, len(texto_retirado_site)):
@@ -86,9 +86,13 @@ def pesquisar():
                     else:
                         if(len(proprietario) > 0):
                             for i in range(len(proprietario), len(texto_retirado_site)):
-                                if texto_retirado_site[i] in numeros or (texto_retirado_site[i] == ' ' and texto_retirado_site[i + 1] == 'E') or (texto_retirado_site[i] == 'E' and texto_retirado_site[i + 1] == ' ') or (texto_retirado_site[i] == ' ' and texto_retirado_site[i + 1] in numeros):
+                                if texto_retirado_site[i] in numeros:
                                     matricula += texto_retirado_site[i]
-                                elif len(matricula) > 0:
+
+                                elif len(matricula) == 0:
+                                    pass
+
+                                else:
                                     break
                         break
 
