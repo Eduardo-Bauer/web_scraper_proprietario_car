@@ -93,6 +93,7 @@ def pesquisar():
                                     pass
 
                                 else:
+                                    matricula = int(matricula)
                                     break
                         break
 
